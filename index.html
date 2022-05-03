@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Cookie Code</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href=".css"> -->
+</head>
+
+<body>
+    <div class="local-storage-container">
+        Local Storage Expiration<br>
+        <form id="set-expiration-form">
+            <label for="years">Years</label>
+            <input type="years" id="years" name="years" value=""><br>
+            <label for="days">Days</label>
+            <input type="number" id="days" name="days" value=""><br>
+            <label for="hours">Hours</label>
+            <input type="number" id="hours" name="hours" value=""><br>
+            <label for="hours">Minutes</label>
+            <input type="number" id="minutes" name="minutes" value=""><br>
+            <label for="seconds">Seconds</label>
+            <input type="number" id="seconds" name="seconds" value=""><br>
+            <label for="milliseconds">Milliseconds</label>
+            <input type="number" id="milliseconds" name="milliseconds" value=""><br>
+            <button type="submit" id="set-expiration">Set Local Storage Expiration</button>
+        </form>
+    </div><br>
+
+
+    <hr>
+    <button id="show-popup">
+        Show Popup
+    </button>
+    <div class="pop-up" style="display: none;">
+
+        <button id="hide-popup">
+            Hide Popup
+        </button>
+        <div class="content">
+            Some Popup Content<br>
+            <a id="popup-link-1" href="#">
+                Link 1
+            </a><br>
+            <a id="popup-link-2" href="#">
+                Link 2
+            </a>
+        </div>
+    </div>
+    <div>
+        Some Persistent Content
+    </div>
+    <script src="cookie.js" async defer></script>
+</body>
+
+</html>
