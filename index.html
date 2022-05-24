@@ -12,7 +12,7 @@
 
 <body>
     <div class="local-storage-container">
-        Local Storage Expiration<br>
+        <p>Local Storage Expiration</p>
         <form id="set-expiration-form">
             <label for="years">Years</label>
             <input type="years" id="years" name="years" value=""><br>
@@ -28,9 +28,8 @@
             <input type="number" id="milliseconds" name="milliseconds" value=""><br>
             <button type="submit" id="set-expiration">Set Local Storage Expiration</button>
         </form>
-    </div><br>
-
-
+    </div>
+    <p>Current Local Storage Expiration (in milliseconds): <span class="current-expiration"></span></span></p>
     <hr>
     <button id="show-popup">
         Show Popup

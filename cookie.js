@@ -12,7 +12,8 @@ const hidePopup = document.querySelector("#hide-popup")
 const popupLink1 = document.querySelector("#popup-link-1")
 const popupLink2 = document.querySelector("#popup-link-2")
 const popup = document.querySelector(".pop-up")
-const setExpirationForm = document.querySelector("#set-expiration-form")
+const setLocalExpirationForm = document.querySelector("#set-expiration-form")
+const currentExpirationDisplay = document.querySelector(".current-expiration")
 
 // Get the current date
 const currentTime = new Date().getTime();
@@ -29,8 +30,8 @@ const applicationState = {
         state: String(true),
         timestamp: new Date().getTime()
     },
-    userSetExpiration: {
-        key: "userSetExpiration",
+    localStorageExpiration: {
+        key: "localStorageExpiration",
         // one day in milliseconds
         state: "86400000",
         timestamp: new Date().getTime()
@@ -42,13 +43,11 @@ const checkStateRendering = () => {
     
     // if view popup is true, set css to block
     const renderBlock = () => {
-        console.log("Render Block");
         popup.style.display = "block"
     }
     
         // // if view popup is false, set to display none
     const renderNone = () => {
-        console.log("Render None");
         popup.style.display = "none"
     }
     
@@ -57,51 +56,42 @@ const checkStateRendering = () => {
 
 }
 
-
-// not a new user 
-const localStorageTrue = () => {
-
-    console.log("localStorageTrue")
-
-    // If popUp is expired
-    const expiredSate = () => {
-        console.log("Expired State");
-        console.log("Resetting Sate to Initial");
-        // Reset viewPopUp To Initial state
-        localStorage.setItem(applicationState.viewPopUp.key, JSON.stringify(applicationState.viewPopUp));
-        // render
-        checkStateRendering()
-    }
-
-
-    // if localStorageStateExpirationThreshHold is set (not undefined)
-    if (typeof localStorageStateExpirationThreshHold !== 'undefined') {
-        // if the current time minus the popupTimeStamp is more than the expiration time
-        (currentTime - JSON.parse(localStorage.getItem("viewPopUp")).timestamp > localStorageStateExpirationThreshHold) ? expiredSate() : checkStateRendering();
-    } else {
-        // if its not expired, render
-        checkStateRendering()
-    }
-    
-
-}
-
-// If no local storage object exists, new user
-const localStorageFalse = () => {
-    console.log("localStorageFalse");
+//new user
+const setDefaultState = () => {
+    console.log("New User or Resetting State");
 
     // for each pice of default state
     for (defaultState in applicationState ) {
         // set local storage with the default state
         localStorage.setItem(String(defaultState), JSON.stringify(applicationState[`${defaultState}`]))
     }
-
+    console.log("Default State: ", localStorage);
     // Render State
     checkStateRendering()
 }
 
+// not a new user 
+const localStorageTrue = () => {
+
+    console.log("localStorageTrue")
+    
+    // if state is expired
+    const expiredSate = () => {
+        console.log("Expired State");
+        console.log("Resetting State to Initial");
+        // Reset State
+        setDefaultState()
+    }
+
+    //if current time minus view popup timestamp is greater than local storage expiration, state is expired, else render
+    currentTime - JSON.parse(localStorage.getItem("viewPopUp")).timestamp > JSON.parse(localStorage.getItem("localStorageExpiration")).state ? expiredSate() : checkStateRendering();
+
+}
+
+
+
 // Does newUser State Exist? 
-(localStorage.getItem("newUser")) ? localStorageTrue() : localStorageFalse()
+(localStorage.getItem("newUser")) ? localStorageTrue() : setDefaultState()
 
 
 // Update state, pass key and state
@@ -109,7 +99,7 @@ const updateState = (stateName, updatedState) => {
 
     // console.log("Updated State: ", stateName, updatedState);
 
-    return () => {
+   
 
         console.log("Updated State: ", stateName, updatedState);
         
@@ -122,24 +112,26 @@ const updateState = (stateName, updatedState) => {
             timestamp: new Date().getTime()
         }
 
+        console.log("State Object To Be Set, ", updatedStateObject);
+
+        console.log("Current State, ", JSON.parse(localStorage.getItem(stateName)))
         // update local storage 
         localStorage.setItem(stateName, JSON.stringify(updatedStateObject)),
         
-        console.log("Test", localStorage.getItem(stateName));
+        console.log("Updated Current State, ", JSON.parse(localStorage.getItem(stateName)));
 
         // render
         checkStateRendering()
-    }
+
 
 }
 
 
-const setExpiration = (event) => {
+const setLocalStorageExpiration = (event) => {
     event.preventDefault()
-    let form = event.target;
-    let formData = new FormData(form)
+    let formData = new FormData(event.target)
     
-    let userSetExpirationState = 
+    let localStorageExpirationState = 
 
         (Number(formData.get("milliseconds"))) +
         (Number(formData.get("seconds")) * 1000) +
@@ -148,14 +140,28 @@ const setExpiration = (event) => {
         (Number(formData.get("days")) * 24 * 60 * 60 * 1000) +
         (Number(formData.get("years")) * 365.25 * 24 * 60 * 60 * 1000)
 
-    updateState("userSetExpiration", userSetExpirationState)
-
+    updateState("localStorageExpiration", localStorageExpirationState)
+    setCurrentExpirationDisplay()
 }
 
-showPopup.addEventListener("click", updateState("viewPopUp", true))
-hidePopup.addEventListener("click", updateState("viewPopUp", false))
-popupLink1.addEventListener("click", updateState("viewPopUp", false))
-popupLink2.addEventListener("click", updateState("viewPopUp", false))
-setExpirationForm.addEventListener("submit", setExpiration)
 
-console.log("Initial State: ", localStorage);
+const setCurrentExpirationDisplay = () => {
+    currentExpirationDisplay.innerHTML = JSON.parse(localStorage.getItem("localStorageExpiration")).state
+}
+setCurrentExpirationDisplay()
+
+showPopup.addEventListener("click", () => {ß
+    updateState("viewPopUp", true)
+})
+hidePopup.addEventListener("click", () => {
+    updateState("viewPopUp", false)
+})
+popupLink1.addEventListener("click", () => {
+    updateState("viewPopUp", false)
+})
+popupLink2.addEventListener("click", () => {
+    updateState("viewPopUp", false)
+})
+setLocalExpirationForm.addEventListener("submit", setLocalStorageExpiration)
+
+

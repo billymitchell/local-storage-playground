@@ -1,0 +1,11 @@
+.logo {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+@media (max-width: 660px) {
+  .logo {
+    width: 100%;
+    max-width: 345px;
+  }
+}

@@ -1,0 +1,58 @@
+/*Centricity CSS*/
+
+/*Makes Item Boxes Responsive to Long Titles*/
+.product {
+  min-height: 267px !important;
+}
+
+.product .featured {
+  display: flex !important;
+  flex-direction: column !important;
+  height: auto !important;
+}
+
+.product .footer {
+  display: flex !important;
+  flex-direction: column !important;
+  justify-content: space-between !important;
+  position: relative !important;
+  padding-top: 5px !important;
+  height: unset !important;
+  min-height: 90px;
+  max-height: none !important;
+}
+
+label.product-name {
+  min-height: unset !important;
+}
+
+.product-name a {
+  text-overflow: unset !important;
+  white-space: unset !important;
+}
+
+label.product-price {
+  position: relative !important;
+}
+
+.product .image-carousel {
+  margin: 10px auto 0 auto !important;
+}
+
+.related-products .product .footer,
+.recently-viewed-products .product .footer {
+  height: 134px !important;
+}
+
+@media only screen and (max-width: 375px) {
+  .product-list .product,
+  .related-products .product,
+  .recently-viewed-products .product {
+    height: auto !important;
+    min-height: unset !important;
+  }
+  .related-products .product .footer,
+  .recently-viewed-products .product .footer {
+    height: unset !important;
+  }
+}
