@@ -146,11 +146,11 @@ const setLocalStorageExpiration = (event) => {
 
 
 const setCurrentExpirationDisplay = () => {
-    currentExpirationDisplay.innerHTML = JSON.parse(localStorage.getItem("localStorageExpiration")).state
+    currentExpirationDisplay.innerHTML = JSON.parse(localStorage.getItem("localStorageExpiration")).state / 86400000
 }
 setCurrentExpirationDisplay()
 
-showPopup.addEventListener("click", () => {ß
+showPopup.addEventListener("click", () => {
     updateState("viewPopUp", true)
 })
 hidePopup.addEventListener("click", () => {
