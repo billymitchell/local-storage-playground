@@ -146,6 +146,7 @@ const setLocalStorageExpiration = (event) => {
 
 
 const setCurrentExpirationDisplay = () => {
+    // 86400000 = 1 day
     currentExpirationDisplay.innerHTML = JSON.parse(localStorage.getItem("localStorageExpiration")).state / 86400000
 }
 setCurrentExpirationDisplay()
